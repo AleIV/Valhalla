@@ -1,5 +1,5 @@
-name: NoobstersCore
+name: Valhalla
 version: ${version}
-main: net.noobsters.core.paper.Core
+main: net.noobsters.core.paper.Valhalla
 api-version: 1.16
 api: ["1.16"]
