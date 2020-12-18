@@ -33,6 +33,10 @@ public class Valhalla extends JavaPlugin{
         arenaWorld.type(WorldType.FLAT);
         arenaWorld.createWorld();
 
+        WorldCreator lobby = new WorldCreator("lobby");
+        lobby.environment(Environment.THE_END);
+        lobby.createWorld();
+
         instance = this;
 
         //managers

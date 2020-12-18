@@ -8,7 +8,5 @@ import lombok.Data;
 public class ArenaPlayer {
     private String arenaplayerUUID;
     private boolean inMatch = false;
-    //edited kits?
-
     
 }
