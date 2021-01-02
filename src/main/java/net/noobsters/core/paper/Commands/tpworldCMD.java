@@ -21,9 +21,9 @@ public class tpworldCMD extends BaseCommand {
 
     @Default
     @CommandCompletion("@worlds")
-    public void tpWorld(Player player, World world) {
-        player.teleport(world.getSpawnLocation());
-        player.sendMessage("Teleported to world " + world);
+    public void tpWorld(Player sender, World world) {
+        sender.teleport(world.getSpawnLocation());
+        sender.sendMessage("Teleported to world " + world);
     }
 
 }

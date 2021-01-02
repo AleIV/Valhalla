@@ -8,5 +8,7 @@ import lombok.Data;
 public class ArenaPlayer {
     private String arenaplayerUUID;
     private boolean inMatch = false;
+    private boolean inQueue = false;
+    private String Queue = "none";
     
 }

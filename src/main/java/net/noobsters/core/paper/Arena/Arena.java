@@ -1,17 +1,13 @@
 package net.noobsters.core.paper.Arena;
 
-import com.google.common.util.concurrent.Service.Listener;
-
 import org.bukkit.Location;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.BlockBreakEvent;
-
+import org.bukkit.event.Listener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor(staticName = "of")
-public class Arena extends Listener{
+public class Arena implements Listener{
     private boolean inUse = false;
     private String mapID;
     private String mapType;
@@ -21,17 +17,15 @@ public class Arena extends Listener{
     private Location spawn2;
     private Location center;
 
-    @EventHandler
-    public void blockBreak(BlockBreakEvent e){
-        if(e.getPlayer().hasPermission("lobby.edit")) return;
-        var block = e.getBlock().getType().toString();
-        switch(block){
-            case "COBBLESTONE":
-            case "OAK_PLANKS":
-            return;
-        }
-        e.setCancelled(true);
-    }
+    //changes blocks
 
-    
+    /*
+    for (i=0;i<20;i++){
+        for (n=0;n<20;n++){
+            for (x=0;x<20;x++){
+                if matriz[x][n][i] != matriz2[x][n][i]
+            }
+        }
+
+    }*/
 }
