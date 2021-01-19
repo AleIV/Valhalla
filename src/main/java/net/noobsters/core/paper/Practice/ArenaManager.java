@@ -1,6 +1,5 @@
-package net.noobsters.core.paper.Arena;
+package net.noobsters.core.paper.Practice;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.AllArgsConstructor;
@@ -23,10 +22,12 @@ public class ArenaManager {
 
     //volatiles
     private @Getter @Setter HashMap<String, ArenaPlayer> arenaPlayers = new HashMap<>();
-    private @Getter @Setter HashMap<String, ArrayList<ArenaPlayer>> queue = new HashMap<>();
+    private @Getter @Setter HashMap<String, ArenaPlayer> queue = new HashMap<>();
     private @Getter @Setter HashMap<String, Match> matches = new HashMap<>();
-    //saved
+
+    //saved database
     private @Getter @Setter HashMap<String, Kit> kits = new HashMap<>();
+    //every practice should have an ID for scale?
     private @Getter @Setter HashMap<String, Arena> arenas = new HashMap<>();
 
 

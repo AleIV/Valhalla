@@ -1,17 +1,14 @@
 package net.noobsters.core.paper.Listeners;
 
-import java.util.ArrayList;
-
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import net.noobsters.core.paper.Valhalla;
-import net.noobsters.core.paper.Arena.ArenaPlayer;
+import net.noobsters.core.paper.Practice.ArenaPlayer;
 
 public class GlobalListeners implements Listener{
 
@@ -39,7 +36,7 @@ public class GlobalListeners implements Listener{
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         var uuid = e.getPlayer().getUniqueId().toString();
-        ArenaPlayer arenaPlayer = ArenaPlayer.of(uuid, false, false, "none");
+        ArenaPlayer arenaPlayer = ArenaPlayer.of(uuid, "none", "none");
         instance.getArenaManager().getArenaPlayers().put(uuid, arenaPlayer);
     }
 
@@ -48,12 +45,10 @@ public class GlobalListeners implements Listener{
         var uuid = e.getPlayer().getUniqueId().toString();
         var arenaPlayer = instance.getArenaManager().getArenaPlayers().get(uuid);
 
-        //removed from the queue is in
-        if(arenaPlayer.isInQueue()){
-            var queue = instance.getArenaManager().getQueue().get(arenaPlayer.getQueue());
-            arenaPlayer.setInQueue(false);
+        //removed from the queue if is in
+        if(instance.getArenaManager().getQueue().containsKey(uuid)){
             arenaPlayer.setQueue("none");
-            queue.remove(arenaPlayer);
+            instance.getArenaManager().getQueue().remove(uuid);
 
         }
         //removed from arena players

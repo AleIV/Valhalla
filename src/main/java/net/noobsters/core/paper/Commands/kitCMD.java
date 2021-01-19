@@ -11,8 +11,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import net.noobsters.core.paper.Valhalla;
-import net.noobsters.core.paper.Arena.ArenaManager;
-import net.noobsters.core.paper.Arena.Kit;
+import net.noobsters.core.paper.Practice.ArenaManager;
+import net.noobsters.core.paper.Practice.Kit;
 
 @RequiredArgsConstructor
 @CommandAlias("kit")

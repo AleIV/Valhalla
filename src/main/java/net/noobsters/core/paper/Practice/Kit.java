@@ -1,4 +1,4 @@
-package net.noobsters.core.paper.Arena;
+package net.noobsters.core.paper.Practice;
 
 import org.bukkit.inventory.ItemStack;
 

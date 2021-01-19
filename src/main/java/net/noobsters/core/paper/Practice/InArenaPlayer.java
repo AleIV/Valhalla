@@ -1,4 +1,4 @@
-package net.noobsters.core.paper.Arena;
+package net.noobsters.core.paper.Practice;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,8 +8,9 @@ import lombok.Data;
 public class InArenaPlayer {
     private ArenaPlayer player;
     private boolean isAlive = false;
-    private String teamID;
+    private Integer teamID = 0;
+    // team ID = 0 FFA
+    // team ID = equipo al que pertenece
     private Match match;
-
     
 }

@@ -13,6 +13,7 @@ public class ListenerManager {
         this.instance = instance;
     
         Bukkit.getPluginManager().registerEvents(new GlobalListeners(instance), instance);
+        Bukkit.getPluginManager().registerEvents(new MatchListeners(instance), instance);
 
     }
 

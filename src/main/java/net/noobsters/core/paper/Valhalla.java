@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
-import net.noobsters.core.paper.Arena.ArenaManager;
+import net.noobsters.core.paper.Practice.ArenaManager;
 import net.noobsters.core.paper.Commands.arenaCMD;
 import net.noobsters.core.paper.Commands.kitCMD;
 import net.noobsters.core.paper.Commands.queueCMD;
@@ -49,7 +49,7 @@ public class Valhalla extends JavaPlugin {
     WorldCreator uhc = new WorldCreator("uhc");
     uhc.environment(Environment.NORMAL);
     uhc.type(WorldType.FLAT);
-    uhc.createWorld();
+    uhc.createWorld(); 
 
     instance = this;
 
