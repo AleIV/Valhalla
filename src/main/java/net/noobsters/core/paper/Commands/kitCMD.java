@@ -1,5 +1,6 @@
 package net.noobsters.core.paper.Commands;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,25 +16,33 @@ import net.noobsters.core.paper.Practice.ArenaManager;
 import net.noobsters.core.paper.Practice.Kit;
 
 @RequiredArgsConstructor
+@CommandPermission("kit.cmd")
 @CommandAlias("kit")
 public class kitCMD extends BaseCommand {
 
     private @NonNull Valhalla instance;
 
-    @CommandPermission("kit.cmd")
     @Subcommand("list")
-    public void kitList(Player sender) {
-        var kits = instance.getArenaManager().getKits().toString();
-        sender.sendMessage(ChatColor.GREEN + kits);
+    public void kitList(CommandSender sender) {
+        var kits = instance.getArenaManager().getKits();
+        var list = new StringBuilder();
+        list.append(ChatColor.GREEN + "Kit list: ");
+        if(kits.isEmpty()){
+            list.append("none");
+        }else{
+            for (var kit : kits.values()) {
+                list.append(ChatColor.AQUA + kit.getName() + " ");
+            }
+        }
+
+        sender.sendMessage(list.toString());
     }
 
-    @CommandPermission("kit.cmd")
-    @Subcommand("global")
+    @Subcommand("create")
     public void kitCreateGlobal(Player sender, String name, String type) {
 
-        if(!instance.getArenaManager().getKits().containsKey(name)){
-            sender.sendMessage(ArenaManager.KIT_NOT_FOUND);
-            return;
+        if(instance.getArenaManager().getKits().containsKey(name)){
+            sender.sendMessage(ArenaManager.KIT_OVERWRITTEN);
         }
 
         final ItemStack[] inventory = sender.getInventory().getContents().clone();
@@ -43,7 +52,18 @@ public class kitCMD extends BaseCommand {
         sender.sendMessage(ChatColor.GREEN + "Global Kit saved as " + name + ".");
     }
 
-    @CommandPermission("kit.cmd")
+    @Subcommand("remove")
+    public void kitRemove(Player sender, String name) {
+
+        if(!instance.getArenaManager().getKits().containsKey(name)){
+            sender.sendMessage(ArenaManager.KIT_NOT_FOUND);
+            return;
+        }
+
+        instance.getArenaManager().getKits().remove(name);
+        sender.sendMessage(ChatColor.RED + "Kit " + name + " removed.");
+    }
+
     @Subcommand("wear")
     public void kitWear(Player sender, String key) {
 

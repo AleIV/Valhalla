@@ -1,5 +1,7 @@
 package net.noobsters.core.paper;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.World.Environment;
@@ -7,8 +9,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
+import net.noobsters.core.paper.Practice.Arena;
 import net.noobsters.core.paper.Practice.ArenaManager;
 import net.noobsters.core.paper.Commands.arenaCMD;
+import net.noobsters.core.paper.Commands.infoCMD;
 import net.noobsters.core.paper.Commands.kitCMD;
 import net.noobsters.core.paper.Commands.queueCMD;
 import net.noobsters.core.paper.Commands.tpworldCMD;
@@ -31,25 +35,10 @@ public class Valhalla extends JavaPlugin {
   public void onEnable() {
 
     // worldcreator
-    WorldCreator arenaWorld = new WorldCreator("Valhalla");
+    WorldCreator arenaWorld = new WorldCreator("valhalla");
     arenaWorld.environment(Environment.NORMAL);
     arenaWorld.type(WorldType.FLAT);
     arenaWorld.createWorld();
-
-    WorldCreator lobby = new WorldCreator("lobby");
-    lobby.environment(Environment.NORMAL);
-    lobby.type(WorldType.FLAT);
-    lobby.createWorld();
-
-    WorldCreator meetup = new WorldCreator("meetup");
-    meetup.environment(Environment.NORMAL);
-    meetup.type(WorldType.FLAT);
-    meetup.createWorld();
-
-    WorldCreator uhc = new WorldCreator("uhc");
-    uhc.environment(Environment.NORMAL);
-    uhc.type(WorldType.FLAT);
-    uhc.createWorld(); 
 
     instance = this;
 
@@ -63,8 +52,16 @@ public class Valhalla extends JavaPlugin {
     commandManager.registerCommand(new kitCMD(this));
     commandManager.registerCommand(new queueCMD(this));
     commandManager.registerCommand(new arenaCMD(this));
+    commandManager.registerCommand(new infoCMD(this));
 
 
+    Location pos1 = new Location(Bukkit.getWorld("valhalla"), 20, 90, 20);
+    Location pos2 = new Location(Bukkit.getWorld("valhalla"), -20, 80, -20);
+    Location spawn1 = new Location(Bukkit.getWorld("valhalla"), 0, 81, 17);
+    Location spawn2 = new Location(Bukkit.getWorld("valhalla"), 0, 81, -17);
+    Location center = new Location(Bukkit.getWorld("valhalla"), 0, 81, 0);
+    Arena arena = Arena.of("TEST-ARENA", "none", "NORMAL", pos1, pos2, spawn1, spawn2, center);
+    arenaManager.getArenas().put("TEST-ARENA", arena);
 
 
 

@@ -2,17 +2,16 @@ package net.noobsters.core.paper.Practice;
 
 import java.util.HashMap;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.ChatColor;
 import net.noobsters.core.paper.Valhalla;
 
-@AllArgsConstructor(staticName = "of")
 public class ArenaManager {
     Valhalla instance;
     
     public static String KIT_NOT_FOUND = ChatColor.RED + "Kit doesn't exist.";
+    public static String KIT_OVERWRITTEN = ChatColor.YELLOW + "Kit overwritten.";
     public static String NOT_AVAILABLE_ARENA = ChatColor.RED + "No arenas available.";
     public static String ALREADY_IN_QUEUE = ChatColor.RED + "You are already in queue.";
     public static String NOT_AVAILABLE_OPPONENTS = ChatColor.RED + "No opponents found.";

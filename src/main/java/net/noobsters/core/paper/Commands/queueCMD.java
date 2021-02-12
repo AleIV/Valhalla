@@ -1,9 +1,12 @@
 package net.noobsters.core.paper.Commands;
 
+import java.util.UUID;
+
 import org.bukkit.entity.Player;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.annotation.Subcommand;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +14,7 @@ import net.noobsters.core.paper.Valhalla;
 import net.noobsters.core.paper.Practice.Arena;
 import net.noobsters.core.paper.Practice.ArenaManager;
 import net.noobsters.core.paper.Practice.ArenaPlayer;
+import net.noobsters.core.paper.Practice.Match;
 
 @RequiredArgsConstructor
 @CommandAlias("queue")
@@ -19,7 +23,7 @@ public class queueCMD extends BaseCommand {
     private @NonNull Valhalla instance;
 
     @Subcommand("join")
-    public void joinQueue(Player sender, String kit) {
+    public void joinQueue(Player sender, String kitName, @Optional Integer rounds) {
 
         var arenaManager = instance.getArenaManager();
         var playerUUID = sender.getUniqueId().toString();
@@ -29,19 +33,19 @@ public class queueCMD extends BaseCommand {
             return;
         }
         //check if kit exist
-        if(!arenaManager.getKits().containsKey(kit)){
+        if(!arenaManager.getKits().containsKey(kitName)){
             sender.sendMessage(ArenaManager.KIT_NOT_FOUND);
             return;
         }
 
         //check & choose if arena is available
 
-        var arenaTypeNeeded = arenaManager.getKits().get(kit).getMapTypeNeeded();
-        var selectedArena = arenaManager.getArenas().values().stream().filter(arena -> isAvailableArena(arena, arenaTypeNeeded)).findFirst();
+        var arenaTypeNeeded = arenaManager.getKits().get(kitName).getMapTypeNeeded();
+        var selectedArena = arenaManager.getArenas().values().stream().filter(arena -> !isAvailableArena(arena, arenaTypeNeeded)).findAny();
 
         //find oponent
 
-        var opponent = arenaManager.getQueue().values().stream().filter(availableOpponent -> isAvailableOpponent(availableOpponent, kit)).findFirst();
+        var opponent = arenaManager.getQueue().values().stream().filter(availableOpponent -> isAvailableOpponent(availableOpponent, kitName)).findAny();
         
         //queue actions
 
@@ -59,45 +63,51 @@ public class queueCMD extends BaseCommand {
             var opponentArenaPlayer = arenaManager.getArenaPlayers().get(opponent.get().getArenaplayerUUID());
             var opponentUUID = opponentArenaPlayer.getArenaplayerUUID();
 
+            var selectedArenaID = selectedArena.get().getArenaID();
+
+            var selectedRounds = rounds == null ? 1 : rounds;
             //saca al opponent 
             arenaManager.getQueue().remove(opponentUUID);
 
-            //crea ingame players
-
             //crea match
-            //var match = Match.of(matchID, timer, rounds, players, arena, kit);
-            //arenaManager.getMatches().put(key, match);
+            var matchID = UUID.randomUUID().toString();
+            ArenaPlayer[] matchPlayers = new ArenaPlayer[] {
+                opponentArenaPlayer, 
+                senderArenaPlayer
+            };
+
+            var match = new Match(matchID, matchPlayers, selectedRounds, 1, selectedArenaID, kitName);
+            arenaManager.getMatches().put(matchID, match);
 
             return;
         }
 
         //joined queue (only cases where cant match right now)
-        sender.sendMessage(ArenaManager.JOINED_QUEUE);
         arenaManager.getQueue().put(playerUUID, senderArenaPlayer);
-        senderArenaPlayer.setQueue(kit);
+        senderArenaPlayer.setQueue(kitName);
+        sender.sendMessage(ArenaManager.JOINED_QUEUE);
 
     }
 
     @Subcommand("leave")
     public void leaveQueue(Player sender) {
-        var senderArenaPlayer = instance.getArenaManager().getArenaPlayers().get(sender.getUniqueId().toString());
+        var arenaManager = instance.getArenaManager();
+        var senderArenaPlayer = arenaManager.getArenaPlayers().get(sender.getUniqueId().toString());
+        
         //leave any queue
+        arenaManager.getQueue().remove(sender.getUniqueId().toString());
         senderArenaPlayer.setQueue("none");
+        sender.sendMessage(ArenaManager.LEAVE_QUEUE);
         
         
     }
 
     public boolean isAvailableArena(Arena arena, String arenaType){
-        if(arena.notInUse() && arena.getMapType() == arenaType)
-            return true;
-        return false;
+        return !arena.isInUse() && arena.getMapType() == arenaType;
     }
 
     public boolean isAvailableOpponent(ArenaPlayer arenaPlayer, String queue){
-        if(arenaPlayer.getQueue() == queue)
-            return true;
-        
-        return false;
+        return arenaPlayer.getQueue() == queue;
     }
 
 

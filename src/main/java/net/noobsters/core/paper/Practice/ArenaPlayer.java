@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor(staticName = "of")
 public class ArenaPlayer {
+    private String arenaplayerName;
     private String arenaplayerUUID;
     private String match = "none";
     private String queue = "none";
