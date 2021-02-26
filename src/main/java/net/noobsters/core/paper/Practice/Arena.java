@@ -1,8 +1,11 @@
 package net.noobsters.core.paper.Practice;
 
+import java.util.Random;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +21,8 @@ public class Arena{
     private Location spawn1;
     private Location spawn2;
     private Location center;
+    private Integer mapSize;
+    private Integer height;
 
 
     public boolean isInUse(){
@@ -60,5 +65,17 @@ public class Arena{
         if(point.getX() > maxX || point.getZ() > maxZ) return false;
 
         return true;
+    }
+    
+    public Location getRandomLoc(){
+        var loc = center.getBlock().getRelative(chooseCoord(16*mapSize), 0, chooseCoord(16*mapSize));
+        return loc.getLocation();
+    }
+
+    public int chooseCoord(int radius) {
+        var random = new Random();
+        var num = random.nextInt(radius);
+        num = random.nextBoolean() ? ~(num) : num;
+        return num;
     }
 }

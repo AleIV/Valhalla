@@ -45,7 +45,7 @@ public class queueCMD extends BaseCommand {
 
         //find oponent
 
-        var opponent = arenaManager.getQueue().values().stream().filter(availableOpponent -> isAvailableOpponent(availableOpponent, kitName)).findAny();
+        var opponent = arenaManager.getQueue().values().stream().filter(availableOpponent -> !isAvailableOpponent(availableOpponent, kitName)).findAny();
         
         //queue actions
 
@@ -62,6 +62,8 @@ public class queueCMD extends BaseCommand {
 
             var opponentArenaPlayer = arenaManager.getArenaPlayers().get(opponent.get().getArenaplayerUUID());
             var opponentUUID = opponentArenaPlayer.getArenaplayerUUID();
+
+            opponentArenaPlayer.setQueue("none");
 
             var selectedArenaID = selectedArena.get().getArenaID();
 

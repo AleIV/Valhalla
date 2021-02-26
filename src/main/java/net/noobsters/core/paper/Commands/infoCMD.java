@@ -1,6 +1,5 @@
 package net.noobsters.core.paper.Commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -75,12 +74,15 @@ public class infoCMD extends BaseCommand {
             list.append("none");
         }else{
             for (var match : matches.values()) {
-                var players = new StringBuilder();
-                for (var player : match.getMatchPlayers().values()){
-                    var p = Bukkit.getPlayer(player.getArenaPlayer().getArenaplayerUUID());
-                    list.append(player.isAlive() ? ChatColor.DARK_GREEN + p.getName().toString() : ChatColor.RED + p.getName().toString());
+                var playerList = new StringBuilder();
+                list.append("\n" + ChatColor.GREEN + match.getMatchID() + ": " + ChatColor.YELLOW + playerList.toString());
+                for (var team : match.getMatchPlayers().entrySet()){
+                    for (var player : team.getValue()) {
+                        list.append(player.isAlive() ? team.getKey() + ". " + ChatColor.DARK_GREEN + player.getArenaPlayer().getArenaplayerName() + " " 
+                        : team.getKey() + ". " + ChatColor.RED + player.getArenaPlayer().getArenaplayerName() + " ");
+                    }
+                    
                 }
-                list.append(ChatColor.GREEN + match.getMatchID() + ": " + ChatColor.YELLOW + players.toString() + " \n");
             }
         }
 

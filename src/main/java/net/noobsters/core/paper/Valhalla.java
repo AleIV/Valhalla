@@ -48,11 +48,11 @@ public class Valhalla extends JavaPlugin {
     listenerManager = new ListenerManager(this);
         
     //commands
+    commandManager.registerCommand(new arenaCMD(this));
+    commandManager.registerCommand(new infoCMD(this));
     commandManager.registerCommand(new tpworldCMD(this));
     commandManager.registerCommand(new kitCMD(this));
     commandManager.registerCommand(new queueCMD(this));
-    commandManager.registerCommand(new arenaCMD(this));
-    commandManager.registerCommand(new infoCMD(this));
 
 
     Location pos1 = new Location(Bukkit.getWorld("valhalla"), 20, 90, 20);
@@ -60,7 +60,7 @@ public class Valhalla extends JavaPlugin {
     Location spawn1 = new Location(Bukkit.getWorld("valhalla"), 0, 81, 17);
     Location spawn2 = new Location(Bukkit.getWorld("valhalla"), 0, 81, -17);
     Location center = new Location(Bukkit.getWorld("valhalla"), 0, 81, 0);
-    Arena arena = Arena.of("TEST-ARENA", "none", "NORMAL", pos1, pos2, spawn1, spawn2, center);
+    Arena arena = Arena.of("TEST-ARENA", "none", "NORMAL", pos1, pos2, spawn1, spawn2, center, 1, 82);
     arenaManager.getArenas().put("TEST-ARENA", arena);
 
 

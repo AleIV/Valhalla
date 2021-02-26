@@ -8,9 +8,9 @@ import lombok.Data;
 public class ArenaPlayer {
     private String arenaplayerName;
     private String arenaplayerUUID;
+    private InArenaPlayer inArenaPlayer = null;
     private String match = "none";
     private String queue = "none";
-
 
     public boolean isInMatch(){
         if(match != "none") return true;

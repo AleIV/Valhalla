@@ -23,7 +23,7 @@ public class GlobalListeners implements Listener{
     public void onJoin(PlayerJoinEvent e){
         var uuid = e.getPlayer().getUniqueId().toString();
         var name = e.getPlayer().getName().toString();
-        ArenaPlayer arenaPlayer = ArenaPlayer.of(name, uuid, "none", "none");
+        ArenaPlayer arenaPlayer = ArenaPlayer.of(name, uuid, null, "none", "none");
         instance.getArenaManager().getArenaPlayers().put(uuid, arenaPlayer);
     }
 
@@ -31,17 +31,27 @@ public class GlobalListeners implements Listener{
     public void onQuit(PlayerQuitEvent e){
         var uuid = e.getPlayer().getUniqueId().toString();
         var arenaPlayer = instance.getArenaManager().getArenaPlayers().get(uuid);
+        var arenaManager = instance.getArenaManager();
+
+        //REMOVE PLAYER FROM EVERYWHERE ON QUIT
 
         //removed from the queue if is in
-        if(instance.getArenaManager().getQueue().containsKey(uuid)){
+        if(arenaPlayer.isInQueue()){
             arenaPlayer.setQueue("none");
-            instance.getArenaManager().getQueue().remove(uuid);
-
-        }else if(instance.getArenaManager().getMatches().containsKey(uuid)){
-
+            arenaManager.getQueue().remove(uuid);
         }
+        
+        if(arenaPlayer.isInMatch()){
+            var teamID = arenaPlayer.getInArenaPlayer().getTeamID();
+            var match = arenaManager.getMatches().get(arenaPlayer.getMatch());
+            match.getMatchPlayers().get(teamID).remove(arenaPlayer.getInArenaPlayer());
+            arenaPlayer.setMatch("none");
+            arenaPlayer.setInArenaPlayer(null);
+            //msg leaving match
+        }
+
         //removed from arena players
-        instance.getArenaManager().getArenaPlayers().remove(uuid);
+        arenaManager.getArenaPlayers().remove(uuid);
     
     }
 
