@@ -94,7 +94,7 @@ public class Match {
                     inArenaPlayer.wearKit(kitID);
                     
                     //teleport
-                    arena.teleportRandom(player);
+                    //arena.teleportRandom(player);
 
                 }
             }
