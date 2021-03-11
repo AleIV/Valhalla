@@ -3,9 +3,7 @@ package net.noobsters.core.paper.Practice;
 import java.util.Random;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -77,5 +75,9 @@ public class Arena{
         var num = random.nextInt(radius);
         num = random.nextBoolean() ? ~(num) : num;
         return num;
+    }
+
+    public void test(){
+        
     }
 }
